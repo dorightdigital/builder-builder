@@ -1,2 +1,2 @@
 # builder-builder
-A runtime builder generater for use in node, io or the browser
+A runtime builder generator for use in node, io or the browser

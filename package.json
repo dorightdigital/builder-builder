@@ -1,0 +1,37 @@
+{
+  "name": "builder-builder",
+  "version": "1.0.0",
+  "description": "A runtime builder generator for use in node, io or the browser",
+  "main": "src/builderBuilder.js",
+  "scripts": {
+    "test": "grunt test",
+    "dev": "grunt watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dorightdigital/builder-builder.git"
+  },
+  "keywords": [
+    "builder pattern",
+    "builder",
+    "object",
+    "creation",
+    "configuration",
+    "manager",
+    "simple"
+  ],
+  "author": "Mat Carey <opensource@dorightdigital.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dorightdigital/builder-builder/issues"
+  },
+  "homepage": "https://github.com/dorightdigital/builder-builder",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jasmine": "^0.8.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jasmine-nodejs": "^1.0.2",
+    "grunt-jslint": "^1.1.14"
+  }
+}

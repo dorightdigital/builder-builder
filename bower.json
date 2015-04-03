@@ -1,0 +1,32 @@
+{
+  "name": "builder-builder",
+  "version": "1.0.0",
+  "homepage": "https://github.com/dorightdigital/builder-builder",
+  "authors": [
+    "Mat Carey <opensource@dorightdigital.com>"
+  ],
+  "description": "A runtime builder generator for use in node, io or the browser",
+  "main": "src/builderBuilder.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "builder pattern",
+    "builder",
+    "object",
+    "creation",
+    "configuration",
+    "manager",
+    "simple"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
