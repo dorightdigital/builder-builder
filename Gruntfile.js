@@ -17,7 +17,9 @@ module.exports = function (grunt) {
             'jsConfig',
             'window',
             'require',
-            'jsConfig'
+            'spyOn',
+            'console',
+            'jasmine'
           ]
         }
       },
@@ -26,7 +28,8 @@ module.exports = function (grunt) {
         directives: {
           indent: 2,
           predef: [
-            'module'
+            'module',
+            'console'
           ]
         }
       },
