@@ -3,7 +3,7 @@ A runtime builder generator for use in node, io or the browser
 
 ## Insallation & Compatability
 
-This library is designed to be usable in Node.JS, IO.JS and all browsers in-the-wild.  It's self-contained and dependency free.  If you're old-school want to you can just copy & paste this into your code then grab (builderBuilder.js)[src/builderBuilder.js].  If you're up-to-date with the rest of the world you'll want to use a package manager.  You can install this module using *NPM* or *Bower*.
+This library is designed to be usable in Node.JS, IO.JS and all browsers in-the-wild.  It's self-contained and dependency free.  If you're old-school want to you can just copy & paste this into your code then grab [builderBuilder.js](src/builderBuilder.js).  If you're up-to-date with the rest of the world you'll want to use a package manager.  You can install this module using *NPM* or *Bower*.
 
 ````shell
 npm install --save builder-builder
