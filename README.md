@@ -1,6 +1,20 @@
 # builder-builder
 A runtime builder generator for use in node, io or the browser
 
+## Insallation & Compatability
+
+This library is designed to be usable in Node.JS, IO.JS and all browsers in-the-wild.  It's self-contained and dependency free.  If you're old-school want to you can just copy & paste this into your code then grab (builderBuilder.js)[src/builderBuilder.js].  If you're up-to-date with the rest of the world you'll want to use a package manager.  You can install this module using *NPM* or *Bower*.
+
+````shell
+npm install --save builder-builder
+````
+or
+````shell
+bower install --save builder-builder
+````
+
+If you think other package managers should be supported (like the one for your favourite backend language) then feel free to raise a Pull Request for it - this library is designed to be assumption-free and should work with any backend language.
+
 ## Usage Examples
 
 There are many usages for the builder pattern, a pretty standard example is to build up a value object over a few lines:
@@ -60,10 +74,6 @@ There are many more usage examples in the [tests](specs).  If you think there's 
  Pull Request.  It would be ideal to describe your desired use-case in a new test (or updating the expectation of an
  existing test), then if you're confident to solve the problem yourself then go ahead but if not feel free to start the
  discussion and see if someone else is willing to build the feature for you.
-
-## Compatibility
-
-This library is designed to be usable in Node.JS, IO.JS and all browsers in-the-wild.  It's self-contained and dependency free.
 
 Happy Building,
 
