@@ -1,0 +1,4 @@
+ * Figure our defaults which aren't "required" or "optional"
+ * Allow removing defaults
+ * Should build take an argument
+ * Support non arrays on "required" or "optional"

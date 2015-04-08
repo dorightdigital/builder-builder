@@ -28,4 +28,15 @@ describe('Default values', function () {
     expect(oldBuilder.build().a).toBe('b');
     expect(newBuilder.build().a).toBe('xyz');
   });
+  it('should assume all defaults are also settable', function () {
+    var myBuilder = builderBuilder({
+      defaults: {
+        url: 'http://www.google.com/'
+      }
+    });
+    var actual = myBuilder().withUrl('http://bing.com/').build();
+    expect(actual).toEqual({
+      url: 'http://bing.com/'
+    })
+  });
 });
