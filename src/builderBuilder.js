@@ -59,9 +59,15 @@ function builderBuilder(params) {
       return self;
     }
 
+    function remover(name) {
+      delete state[name];
+      return self;
+    }
+
     loop(names, function (name) {
-      var fnName = ('with' + capitalize(name));
-      self[fnName] = setter.bind(null, name);
+      var casedName = capitalize(name);
+      self[('with' + casedName)] = setter.bind(null, name);
+      self[('without' + casedName)] = remover.bind(null, name);
     });
 
     self.with = function (name, value) {
@@ -72,6 +78,7 @@ function builderBuilder(params) {
       }
       return self;
     };
+
     self.listMissingFields = function () {
       var missing = [];
       loop(required, function (name) {
