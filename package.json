@@ -1,6 +1,6 @@
 {
   "name": "builder-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A runtime builder generator for use in node, io or the browser",
   "main": "src/builderBuilder.js",
   "scripts": {
