@@ -16,7 +16,7 @@ describe('Default values', function () {
       c: 'd'
     });
   });
-  it('should not share scope between two builders using the same config', function () {
+  it('should not share scope between twaccommodationAssignRoomRequesto builders using the same config', function () {
     this.exampleBuilder().withA('the value');
     expect(this.exampleBuilder().build().a).toBe('b');
   });
@@ -29,14 +29,15 @@ describe('Default values', function () {
     expect(newBuilder.build().a).toBe('xyz');
   });
   it('should assume all defaults are also settable', function () {
+    console.log('------------');
     var myBuilder = builderBuilder({
-      defaults: {
-        url: 'http://www.google.com/'
-      }
-    });
-    var actual = myBuilder().withUrl('http://bing.com/').build();
+        defaults: {
+          url: 'http://www.google.com/'
+        }
+      }),
+      actual = myBuilder().withUrl('http://bing.com/').build();
     expect(actual).toEqual({
       url: 'http://bing.com/'
-    })
+    });
   });
 });
