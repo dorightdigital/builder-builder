@@ -27,7 +27,7 @@ describe('Usage Examples', function () {
     });
     it('should give an example of mapping a complex domain model', function () {
       var urlBuilder = builderBuilder({
-        required: ['host'],
+        required: 'host',
         optional: ['port', 'path', 'protocol', 'queryString'],
         defaults: {protocol: 'http', path: '/'},
         postBuildHook: function (input) {
@@ -56,6 +56,18 @@ describe('Usage Examples', function () {
         .withHost('lmgtfy.com')
         .withQueryString('q=Builder+Builder+By+DoRightDigital')
         .build()).toBe('http://lmgtfy.com/?q=Builder+Builder+By+DoRightDigital');
+    });
+  });
+  describe('Simple use case', function () {
+    it('should allow setting strings instead of arrays for simplicity', function () {
+      var builder = builderBuilder({
+        required: 'username',
+        optional: 'password'
+      });
+      expect(builder().withUsername('superman').withPassword('letmein').build()).toEqual({
+        username: 'superman',
+        password: 'letmein'
+      });
     });
   });
   describe('Setter function behaviours', function () {
