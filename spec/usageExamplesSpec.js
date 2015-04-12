@@ -27,39 +27,45 @@ describe('Usage Examples', function () {
     });
     it('should give an example of mapping a complex domain model', function () {
       var urlBuilder = builderBuilder({
-        required: 'host',
-        optional: ['port', 'path', 'protocol', 'queryString'],
-        defaults: {protocol: 'http', path: '/'},
-        postBuildHook: function (input) {
-          var out = [];
-          out.push(input.protocol);
-          out.push('://');
-          out.push(input.host);
-          if (input.port) {
-            out.push(':' + input.port);
+          required: 'host',
+          optional: ['port', 'queryParams'],
+          defaults: {protocol: 'http', path: '/'},
+          postBuildHook: function (input) {
+            var out = [], params = input.queryParams || {}, paramName, queryString = '';
+            out.push(input.protocol);
+            out.push('://');
+            out.push(input.host);
+            if (input.port) {
+              out.push(':' + input.port);
+            }
+            if (input.path.charAt(0) !== '/') {
+              throw new Error('Paths have to begin with forward slash.  Path provdied was: ' + input.path);
+            }
+            out.push(input.path);
+            for (paramName in params) {
+              if (params.hasOwnProperty(paramName)) {
+                queryString += queryString.length === 0 ? '?' : '&';
+                queryString += encodeURIComponent(paramName);
+                queryString += '=';
+                queryString += encodeURIComponent(params[paramName]);
+              }
+            }
+            out.push(queryString);
+            return out.join('');
           }
-          if (input.path.charAt(0) !== '/') {
-            throw new Error('Paths have to begin with forward slash.  Path provdied was: ' + input.path);
-          }
-          out.push(input.path);
-          if (input.queryString) {
-            out.push('?');
-            out.push(input.queryString);
-          }
-          return out.join('');
-        }
-      });
+        }),
+        defaultUrlBuilder = urlBuilder().withHost('example.com').withProtocol('https'),
+        specificUrlBuilder = defaultUrlBuilder.clone().withPath('/my-path');
 
-      expect(urlBuilder().withHost('example.com').withProtocol('https').build()).toBe('https://example.com/');
+      expect(defaultUrlBuilder.build()).toBe('https://example.com/');
+      expect(specificUrlBuilder.build()).toBe('https://example.com/my-path');
       expect(urlBuilder().withHost('example.com').withPath('/abc/def').build()).toBe('http://example.com/abc/def');
       expect(urlBuilder()
         .withHost('lmgtfy.com')
-        .withQueryString('q=Builder+Builder+By+DoRightDigital')
-        .build()).toBe('http://lmgtfy.com/?q=Builder+Builder+By+DoRightDigital');
+        .withQueryParams({q: 'Builder Builder By DoRightDigital', abc: 'def'})
+        .build()).toBe('http://lmgtfy.com/?q=Builder%20Builder%20By%20DoRightDigital&abc=def');
     });
-  });
-  describe('Simple use case', function () {
-    it('should allow setting strings instead of arrays for simplicity', function () {
+    it('should contain a simple use case', function () {
       var builder = builderBuilder({
         required: 'username',
         optional: 'password'
@@ -68,8 +74,44 @@ describe('Usage Examples', function () {
         username: 'superman',
         password: 'letmein'
       });
+      expect(builder().withUsername('admin').build()).toEqual({
+        username: 'admin'
+      });
+    });
+    describe('testing variations of user state', function () {
+      function getGreeting(user) {
+        return 'Hello ' + (user.alias || user.realName || user.username);
+      }
+
+      var userBuilder = builderBuilder({
+          required: 'username',
+          optional: ['alias', 'realName']
+        }),
+        generateDefaultUser = userBuilder().withUsername('iamawesome').withRealName('Fred Smith').withAlias('Awesomeness').clone;
+
+      it("should greet users by their alias when available", function () {
+        var user = generateDefaultUser().build();
+        expect(getGreeting(user)).toBe('Hello Awesomeness');
+      });
+      it("should greet users by their alias when available", function () {
+        var user = generateDefaultUser().withoutAlias().build();
+        expect(getGreeting(user)).toBe('Hello Fred Smith');
+      });
+      it("should greet users by their real name when alias unavailable", function () {
+        var user = generateDefaultUser().withoutAlias().withoutRealName().build();
+        expect(getGreeting(user)).toBe('Hello iamawesome');
+      });
+      it("should greet users by their username when all else fails", function () {
+        var user = generateDefaultUser().withoutAlias().withoutRealName().build();
+        expect(getGreeting(user)).toBe('Hello iamawesome');
+      });
+      it("should make sure that username is read from user object", function () {
+        var user = generateDefaultUser().withoutAlias().withoutRealName().withUsername('superman').build();
+        expect(getGreeting(user)).toBe('Hello superman');
+      });
     });
   });
+
   describe('Setter function behaviours', function () {
     beforeEach(function () {
       this.instance = this.exampleBuilder();
