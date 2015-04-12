@@ -14,6 +14,7 @@ module.exports = function (grunt) {
             'xit',
             'expect',
             'beforeEach',
+            'afterEach',
             'jsConfig',
             'window',
             'require',

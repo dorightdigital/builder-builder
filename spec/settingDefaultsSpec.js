@@ -29,7 +29,6 @@ describe('Default values', function () {
     expect(newBuilder.build().a).toBe('xyz');
   });
   it('should assume all defaults are also settable', function () {
-    console.log('------------');
     var myBuilder = builderBuilder({
         defaults: {
           url: 'http://www.google.com/'

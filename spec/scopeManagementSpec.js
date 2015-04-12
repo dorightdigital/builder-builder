@@ -3,7 +3,7 @@ describe('Scope Management', function () {
 
   var builderBuilder = (typeof require === 'function' && require('../src/builderBuilder')) || window.builderBuilder;
 
-  it('should keep actual reference to objects passed in - this allows you to pass in complex objects with their own state management', function () {
+  it('should keep actual reference to objects passed in - allowing you to pass in complex objects with their own state management', function () {
     var inputObject = {
         abc: 'def',
         getter: function (name) {

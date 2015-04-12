@@ -26,28 +26,21 @@ function builderBuilder(params) {
     return typeof strOrArray === 'object' ? strOrArray : [strOrArray];
   }
 
-  function shallowClone(original) {
-    var clone = {};
-    loop(original, function (value, key) {
-      clone[key] = value;
-    });
-    return clone;
-  }
-
   function capitalize(str) {
     return str.substr(0, 1).toUpperCase() + str.substr(1);
   }
 
-  return function (getterOrObj) {
+  var constructor = function (getterOrObj) {
     var self = {},
       state = {},
+      defaults = {},
       required = asArray(params.required || []),
       optional = asArray(params.optional || []),
       names = required.concat(optional);
 
     if (params.defaults) {
       loop(params.defaults, function (val, paramName) {
-        state[paramName] = val;
+        defaults[paramName] = val;
         if (names.indexOf(paramName) === -1) {
           names.push(paramName);
         }
@@ -60,8 +53,12 @@ function builderBuilder(params) {
     }
 
     loop(names, function (name) {
-      var fnName = ('with' + capitalize(name));
-      self[fnName] = setter.bind(null, name);
+      var casedName = capitalize(name);
+      self['with' + casedName] = setter.bind(null, name);
+      self['without' + casedName] = function () {
+        delete state[name];
+        return self;
+      };
     });
 
     self.with = function (name, value) {
@@ -75,7 +72,7 @@ function builderBuilder(params) {
     self.listMissingFields = function () {
       var missing = [];
       loop(required, function (name) {
-        if (state[name] === undefined) {
+        if (state[name] === undefined && defaults[name] === undefined) {
           missing.push(name);
         }
       });
@@ -99,7 +96,14 @@ function builderBuilder(params) {
       return self.listMissingFields().length === 0;
     };
     self.buildWithoutValidating = function () {
-      var built = shallowClone(state);
+      var built = {};
+      loop(names, function (name) {
+        if (state.hasOwnProperty(name)) {
+          built[name] = state[name];
+        } else if (defaults.hasOwnProperty(name)) {
+          built[name] = defaults[name];
+        }
+      });
       if (params.postBuildHook) {
         built = params.postBuildHook(built);
       }
@@ -111,6 +115,13 @@ function builderBuilder(params) {
       }
       return self.buildWithoutValidating();
     };
+    self.clone = function () {
+      var newBuilder = constructor();
+      loop(state, function (val, key) {
+        newBuilder.with(key, val);
+      });
+      return newBuilder;
+    };
     if (getterOrObj) {
       if (typeof getterOrObj === 'function') {
         self.readFromGetterFunction(getterOrObj);
@@ -120,6 +131,8 @@ function builderBuilder(params) {
     }
     return self;
   };
+
+  return constructor;
 }
 
 if (typeof module === 'object') {
