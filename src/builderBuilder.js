@@ -36,10 +36,19 @@ function builderBuilder(params) {
 
   return function (getterOrObj) {
     var self = {},
-      state = shallowClone(params.defaults || {}),
+      state = {},
       required = params.required || [],
       optional = params.optional || [],
       names = required.concat(optional);
+
+    if (params.defaults) {
+      loop(params.defaults, function (val, paramName) {
+        state[paramName] = val;
+        if (names.indexOf(paramName) === -1) {
+          names.push(paramName);
+        }
+      });
+    }
 
     function setter(name, value) {
       state[name] = value;
@@ -47,7 +56,8 @@ function builderBuilder(params) {
     }
 
     loop(names, function (name) {
-      self['with' + capitalize(name)] = setter.bind(null, name);
+      var fnName = ('with' + capitalize(name));
+      self[fnName] = setter.bind(null, name);
     });
 
     self.with = function (name, value) {
