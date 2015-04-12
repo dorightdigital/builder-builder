@@ -22,6 +22,10 @@ function builderBuilder(params) {
     }
   }
 
+  function asArray(strOrArray) {
+    return typeof strOrArray === 'object' ? strOrArray : [strOrArray];
+  }
+
   function shallowClone(original) {
     var clone = {};
     loop(original, function (value, key) {
@@ -37,8 +41,8 @@ function builderBuilder(params) {
   return function (getterOrObj) {
     var self = {},
       state = {},
-      required = params.required || [],
-      optional = params.optional || [],
+      required = asArray(params.required || []),
+      optional = asArray(params.optional || []),
       names = required.concat(optional);
 
     if (params.defaults) {

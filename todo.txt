@@ -1,3 +1,2 @@
  * Allow removing defaults
- * Should build take an argument
- * Support non arrays on "required" or "optional"
+ * Should build take an argument?
