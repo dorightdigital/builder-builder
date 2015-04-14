@@ -52,7 +52,11 @@ describe('testing variations of user state', function () {
       required: 'username',
       optional: ['alias', 'realName']
     }),
-    generateDefaultUser = userBuilder().withUsername('iamawesome').withRealName('Fred Smith').withAlias('Awesomeness').clone;
+    generateDefaultUser = userBuilder()
+     .withUsername('iamawesome')
+     .withRealName('Fred Smith')
+     .withAlias('Awesomeness')
+     .clone;
 
   it("should greet users by their alias when available", function () {
     var user = generateDefaultUser().build();
