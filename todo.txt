@@ -3,3 +3,4 @@
  * Use new for builder builder?  Use new for builders?
  * Allow configuration objects as well as strings in optional or required fields
  * Allow collection type
+ * Allow array for postBuildHook
